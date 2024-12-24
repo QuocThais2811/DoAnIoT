@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nhận dạng khuôn mặt</title>
+    <link rel="stylesheet" href="main.css" />ss
+  </head>
+  <body>
+    <p class="tieude">ĐỒ ÁN IoT</p>
+    <div id="employee-data">
+      <h2>Danh sách nhân viên điểm danh</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Hình ảnh</th>
+            <th>Tên</th>
+            <th>Thời gian điểm danh</th>
+          </tr>
+        </thead>
+        <tbody id="employee-table-body">
+          <!-- Dữ liệu nhân viên sẽ được thêm vào đây -->
+        </tbody>
+      </table>
+    </div>
+    <script>
+      // Hàm để lấy dữ liệu từ ESP32 và hiển thị trên web
+      async function fetchEmployeeData() {
+        try {
+          const response = await fetch("http://esp32.local/data"); // URL của ESP32
+          const data = await response.json();
+          const tableBody = document.getElementById("employee-table-body");
+          tableBody.innerHTML = ""; // Xóa nội dung cũ
+
+          data.forEach((employee) => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                            <td>${employee.id}</td>
+                            <td><img src="${employee.image}" alt="Hình ảnh nhân viên" width="50" height="50"></td>
+                            <td>${employee.name}</td>
+                            <td>${employee.timestamp}</td>
+                            `;
+            tableBody.appendChild(row);
+          });
+        } catch (error) {
+          console.error("Lỗi khi lấy dữ liệu:", error);
+        }
+      }
+
+      // Gọi hàm fetchEmployeeData khi tải trang
+      window.onload = fetchEmployeeData;
+    </script>
+  </body>
+</html>
