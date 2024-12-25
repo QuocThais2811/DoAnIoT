@@ -29,7 +29,7 @@
       // Hàm để lấy dữ liệu từ ESP32 và hiển thị trên web
       async function fetchEmployeeData() {
         try {
-          const response = await fetch("http://192.168.1.41"); // URL của ESP32
+          const response = await fetch("http://192.168.1.41/"); // URL của ESP32
           const data = await response.json();
           const tableBody = document.getElementById("employee-table-body");
           tableBody.innerHTML = ""; // Xóa nội dung cũ
